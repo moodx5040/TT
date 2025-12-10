@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قائمة الطلبات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --main-color: #FFD700;
+    --hover-color: #FFEA33;
+    --bg-dark: #0d0d0d;
+    --card-bg: #121212;
+    --card-hover-bg: #1c1c1c;
+    --card-border: #FFD700;
+    --card-hover-border: #FFEA33;
+    --text-muted: #bbb;
+    --footer-text: #aaa;
+    --footer-border: #444;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Tajawal', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--main-color);
+    transition: all 0.4s ease;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(to bottom, #111 60%, #1a1a1a);
+    border-bottom: 3px solid var(--main-color);
+  }
+
+  header h1 {
+    font-size: 2.5em;
+    margin: 0;
+  }
+
+  .sections {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .sections button {
+    padding: 10px 15px;
+    background-color: var(--main-color);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .sections button:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .food-card {
+    background-color: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .food-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--card-hover-border);
+    background-color: var(--card-hover-bg);
+  }
+
+  .food-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+  .food-card p {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .option-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .option-buttons button {
+    padding: 5px 10px;
+    background-color: var(--main-color);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .option-buttons button:hover {
+    background-color: var(--hover-color);
+  }
+
+  .selected-orders {
+    margin-top: 30px;
+    border: 2px solid var(--main-color);
+    border-radius: 12px;
+    padding: 15px;
+    min-height: 100px;
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1c1c1c;
+    padding: 5px 10px;
+    border-radius: 8px;
+  }
+
+  .order-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+
+  .quantity-btn {
+    width: 28px;
+    height: 28px;
+    background-color: var(--main-color);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+
+  .quantity-btn:hover {
+    background-color: var(--hover-color);
+  }
+
+  #confirmBtn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: var(--main-color);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #confirmBtn:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: var(--footer-text);
+    border-top: 1px solid var(--footer-border);
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>كل الأصناف متوفرة.. اطلب م تشتهيه..🍔🌯</h1>
+</header>
+
+<div class="sections">
+  <button onclick="showSection(1)">القسم الأول</button>
+  <button onclick="showSection(2)">القسم الثاني</button>
+  <button onclick="showSection(3)">القسم الثالث</button>
+  <button onclick="showSection(4)">القسم الرابع</button>
+  <button onclick="showSection(5)">القسم الخامس</button>
+</div>
+
+<div class="container">
+  <div class="food-grid" id="foodGrid"></div>
+
+  <div class="selected-orders" id="selectedOrders">
+    <p>الطلبات المختارة ستظهر هنا...</p>
+  </div>
+
+  <button id="confirmBtn">تأكيد الطلب</button>
+</div>
+
+<footer>
+  &copy; 2025 متجر A_delivery - جميع الحقوق محفوظة
+  <br>
+  مع تحيات المبرمج محمد عبدالواحد
+</footer>
+
+<script>
+const sections = {
+  1: [
+    {name:"صنف1", img:"صورة1.jpg", price:0}, {name:"صنف2", img:"صورة2.jpg", price:0},
+    {name:"صنف3", img:"صورة3.jpg", price:0}, {name:"صنف4", img:"صورة4.jpg", price:0},
+    {name:"صنف5", img:"صورة5.jpg", price:0}, {name:"صنف6", img:"صورة6.jpg", price:0},
+    {name:"صنف7", img:"صورة7.jpg", price:0}, {name:"صنف8", img:"صورة8.jpg", price:0},
+    {name:"صنف9", img:"صورة9.jpg", price:0}
+  ],
+  2: [
+    {name:"صنف10", img:"صورة10.jpg", price:0}, {name:"صنف11", img:"صورة11.jpg", price:0},
+    {name:"صنف12", img:"صورة12.jpg", price:0}, {name:"صنف13", img:"صورة13.jpg", price:0},
+    {name:"صنف14", img:"صورة14.jpg", price:0}, {name:"صنف15", img:"صورة15.jpg", price:0},
+    {name:"صنف16", img:"صورة16.jpg", price:0}, {name:"صنف17", img:"صورة17.jpg", price:0},
+    {name:"صنف18", img:"صورة18.jpg", price:0}, {name:"صنف19", img:"صورة19.jpg", price:0},
+    {name:"صنف20", img:"صورة20.jpg", price:0}
+  ],
+  3: [
+    {name:"صنف21", img:"صورة21.jpg", price:0}, {name:"صنف22", img:"صورة22.jpg", price:0},
+    {name:"صنف23", img:"صورة23.jpg", price:0}, {name:"صنف24", img:"صورة24.jpg", price:0},
+    {name:"صنف25", img:"صورة25.jpg", price:0}
+  ],
+  4: [
+    {name:"صنف26", img:"صورة26.jpg", price:0}, {name:"صنف27", img:"صورة27.jpg", price:0},
+    {name:"صنف28", img:"صورة28.jpg", price:0}, {name:"صنف29", img:"صورة29.jpg", price:0},
+    {name:"صنف30", img:"صورة30.jpg", price:0}, {name:"صنف31", img:"صورة31.jpg", price:0},
+    {name:"صنف32", img:"صورة32.jpg", price:0}, {name:"صنف33", img:"صورة33.jpg", price:0},
+    {name:"صنف34", img:"صورة34.jpg", price:0}, {name:"صنف35", img:"صورة35.jpg", price:0},
+    {name:"صنف36", img:"صورة36.jpg", price:0}, {name:"صنف37", img:"صورة37.jpg", price:0},
+    {name:"صنف38", img:"صورة38.jpg", price:0}, {name:"صنف39", img:"صورة39.jpg", price:0},
+    {name:"صنف40", img:"صورة40.jpg", price:0}
+  ],
+  5: [
+    {name:"صنف41", img:"صورة41.jpg", price:0}, {name:"صنف42", img:"صورة42.jpg", price:0},
+    {name:"صنف43", img:"صورة43.jpg", price:0}, {name:"صنف44", img:"صورة44.jpg", price:0},
+    {name:"صنف45", img:"صورة45.jpg", price:0}, {name:"صنف46", img:"صورة46.jpg", price:0},
+    {name:"صنف47", img:"صورة47.jpg", price:0}, {name:"صنف48", img:"صورة48.jpg", price:0},
+    {name:"صنف49", img:"صورة49.jpg", price:0}, {name:"صنف50", img:"صورة50.jpg", price:0},
+    {name:"صنف51", img:"صورة51.jpg", price:0}, {name:"صنف52", img:"صورة52.jpg", price:0}
+  ]
+};
+
+const foodGrid = document.getElementById('foodGrid');
+const selectedOrdersDiv = document.getElementById('selectedOrders');
+const confirmBtn = document.getElementById('confirmBtn');
+let selectedOrders = [];
+let currentSection = 1;
+
+function showSection(sectionNumber){
+  currentSection = sectionNumber;
+  foodGrid.innerHTML = '';
+
+  sections[sectionNumber].forEach((item, index) => {
+    const div = document.createElement('div');
+    div.classList.add('food-card');
+    div.innerHTML = `<img src="${item.img}" alt="${item.name}">
+      <p>${item.name} - 00 ريال</p>`;
+
+    if(sectionNumber <= 3){
+      const optionDiv = document.createElement('div');
+      optionDiv.classList.add('option-buttons');
+      optionDiv.innerHTML = `<button onclick="addOrder('${item.name}_عادي')">عادي</button>
+                             <button onclick="addOrder('${item.name}_حراق')">حراق</button>`;
+      div.appendChild(optionDiv);
+    } else {
+      div.addEventListener('click', ()=> addOrder(item.name));
+    }
+
+    foodGrid.appendChild(div);
+  });
+}
+
+function addOrder(name){
+  let cleanName = name.replace("_عادي","").replace("_حراق","");
+  let itemData = sections[currentSection].find(item => item.name === cleanName);
+  let price = itemData ? itemData.price : 0;
+
+  let existing = selectedOrders.find(item => item.name === name);
+  if(existing){
+    existing.quantity++;
+  } else {
+    selectedOrders.push({ name: name, quantity: 1, price: price, img: itemData.img });
+  }
+  updateSelectedOrders();
+}
+
+function updateSelectedOrders(){
+  selectedOrdersDiv.innerHTML = '';
+  if(selectedOrders.length === 0){
+    selectedOrdersDiv.innerHTML = '<p>الطلبات المختارة ستظهر هنا...</p>';
+    return;
+  }
+  selectedOrders.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.classList.add('order-item');
+    div.innerHTML = `<p>${item.name} × ${item.quantity} - ${item.price*item.quantity} ريال</p>
+      <img src="${item.img}" alt="${item.name}">
+      <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>`;
+    selectedOrdersDiv.appendChild(div);
+  });
+}
+
+function decreaseQuantity(index){
+  if(selectedOrders[index].quantity > 1){
+    selectedOrders[index].quantity--;
+  } else {
+    selectedOrders.splice(index, 1);
+  }
+  updateSelectedOrders();
+}
+
+confirmBtn.addEventListener('click', () => {
+  localStorage.setItem('orders', JSON.stringify(selectedOrders));
+  window.location.href = 'cart.html';
+});
+
+// عرض القسم الأول عند بداية الصفحة
+showSection(1);
+</script>
+</body>
+</html>
