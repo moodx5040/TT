@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>سلة طلباتك</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --main-color: #ffcc00;      
+  --hover-color: #ffdd33;     
+  --bg-dark: #0d0d0d;
+  --card-bg: #121212;
+  --card-hover-bg: #1c1c1c;
+  --card-border: #ffcc00;
+  --card-hover-border: #ffdd33;
+  --text-muted: #bbb;
+  --footer-text: #aaa;
+  --footer-border: #444;
+}
+
+body {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--main-color);
+  transition: all 0.4s ease;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #111 60%, #1a1a1a);
+  border-bottom: 3px solid var(--main-color);
+}
+
+header h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.order-card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 16px rgba(255, 204, 0, 0.15);
+}
+
+.order-card h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.6em;
+  color: var(--main-color);
+}
+
+.order-card .order-items {
+  margin: 10px 0;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 1.05em;
+}
+
+.order-item span {
+  color: var(--text-muted);
+}
+
+.total {
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+label {
+  display: block;
+  margin: 15px 0 5px 0;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--main-color);
+  background-color: #1c1c1c;
+  color: var(--main-color);
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  flex: 1;
+  padding: 12px 24px;
+  background-color: var(--main-color);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--hover-color);
+  transform: scale(1.05);
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: var(--footer-text);
+  border-top: 1px solid var(--footer-border);
+  margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>سلة طلباتك</h1>
+</header>
+
+<div class="container">
+
+  <div class="order-card">
+    <h2>طلب احلى عميل</h2>
+    <div class="order-items" id="orderItems"></div>
+    <div class="total" id="totalAmount">المبلغ كامل هو: 0 ريال</div>
+
+    <label for="customerName">اسم العميل:</label>
+    <input type="text" id="customerName" placeholder="اكتب اسمك هنا">
+
+    <div class="btns">
+      <button id="locationBtn">موقعك</button>
+      <button id="sendBtn">إرسال الطلب</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2025 متجر A_delivery - جميع الحقوق محفوظة
+  <br>
+  مع تحيات المبرمج محمد عبدالواحد
+</footer>
+
+<script>
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+  const orderItemsDiv = document.getElementById('orderItems');
+  const totalAmountDiv = document.getElementById('totalAmount');
+  const sendBtn = document.getElementById('sendBtn');
+  const locationBtn = document.getElementById('locationBtn');
+  const customerNameInput = document.getElementById('customerName');
+
+  let userLocation = ""; // لازم العميل يحدد موقعه
+
+  function updateOrderCard(){
+    orderItemsDiv.innerHTML = '';
+    let total = 0;
+    orders.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+
+      const div = document.createElement('div');
+      div.classList.add('order-item');
+      div.innerHTML = `${item.quantity} × ${item.name} <span>${itemTotal} ريال</span>`;
+      orderItemsDiv.appendChild(div);
+    });
+
+    totalAmountDiv.textContent = `المبلغ كامل هو: ${total} ريال`;
+  }
+
+  updateOrderCard();
+
+  // زر تحديد الموقع
+  locationBtn.addEventListener('click', () => {
+    window.open("https://maps.google.com/maps?q=My+Location", "_blank");
+    userLocation = "تم إرسال موقعي - يرجى نسخه من خرائط قوقل";
+  });
+
+  // زر إرسال الطلب
+  sendBtn.addEventListener('click', () => {
+    const customerName = customerNameInput.value.trim();
+
+    if(customerName === ''){
+      alert('يرجى كتابة اسم العميل.');
+      return;
+    }
+
+    if(userLocation === ""){
+      alert('يرجى تحديد موقع العميل قبل إرسال الطلب.');
+      return;
+    }
+
+    let total = orders.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    let message = 
+`> *»جب لي توصيل طلبات مشاوير»*
+*⌬━━━ • ━━༻🍔༺━ • ━━━⌬*
+\`الـطـلب  |   |   request\`
+
+`;
+
+    orders.forEach(item => {
+      message += `『${item.quantity}』» ${item.name} = ${item.price * item.quantity} ريال\n`;
+    });
+
+    message += 
+`
+*⌬━━━ • ━━༻🍔༺━ • ━━━⌬*
+\`سعر الطلب الإجمالي » 『${total} ريال』\`
+\`اسم العميل » 『${customerName}』\`
+\`موقع العميل » 『${userLocation}』\`
+> مـلاحــظـة ⚠️: سعر التوصيل حسب الموقع 
+`;
+
+    const whatsappURL = `https://wa.me/+966566257777?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+  });
+</script>
+
+</body>
+</html>

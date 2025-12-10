@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="https://moodx5040.github.io/a_delivery1/%D9%84%D9%88%D8%BA%D9%88.jpg" type="image/png">
+  <title>إنجازات مناديبنا الاعزاءا</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --main-blue: #FFD700;
+      --hover-blue: #FFEA00;
+      --dark-bg: #0d0d0d;
+      --card-bg: #121212;
+      --card-hover-bg: #1c1c1c;
+      --card-border: #FFD700;
+      --card-hover-border: #FFEA00cc;
+      --text-muted: #bbb;
+      --footer-text: #aaa;
+      --footer-border: #444;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--main-blue);
+      transition: all 0.4s ease;
+    }
+
+    .dark-mode { background-color: var(--dark-bg); color: var(--main-blue); }
+    .light-mode { background-color: #f9f9f9; color: #333; }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      position: relative;
+      background: linear-gradient(to bottom, #111 60%, #1a1a1a);
+      border-bottom: 3px solid var(--main-blue);
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2.8em;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--main-blue);
+    }
+
+    header p {
+      margin-top: 15px;
+      font-size: 1.2em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #ccc;
+    }
+
+    .toggle-mode {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      padding: 10px 18px;
+      background-color: var(--main-blue);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .toggle-mode:hover { background-color: var(--hover-blue); transform: scale(1.05); }
+
+    .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+
+    .achievement-category { text-align: center; margin-bottom: 50px; }
+    .achievement-category h2 { font-size: 2em; margin-bottom: 20px; color: var(--main-blue); }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .achievement-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--card-border);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(255, 215, 0, 0.08);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .achievement-card:hover {
+      transform: translateY(-6px);
+      background-color: var(--card-hover-bg);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
+    }
+
+    .achievement-icon { font-size: 2.5em; color: var(--main-blue); margin-bottom: 15px; }
+    .achievement-title { font-size: 1.4em; color: var(--main-blue); margin: 0; }
+    .achievement-desc { margin-top: 10px; font-size: 0.95em; color: var(--text-muted); }
+
+    /* تقييم وتعليقات */
+    .review-section {
+      margin-top: 60px;
+      padding: 20px;
+      border: 2px solid var(--main-blue);
+      border-radius: 12px;
+      background-color: var(--card-bg);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .review-section h2 { text-align: center; color: var(--main-blue); margin-bottom: 20px; }
+    .review-input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--main-blue); background-color: var(--card-bg); color: var(--main-blue); }
+    .star-rating { display: flex; gap: 5px; justify-content: center; margin-bottom: 10px; cursor: pointer; }
+    .star { font-size: 2em; color: var(--text-muted); transition: color 0.2s; }
+    .star.selected { color: gold; }
+
+    .send-btn { display: block; margin: auto; padding: 10px 20px; background-color: var(--main-blue); color: #000; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; }
+    .send-btn:hover { background-color: var(--hover-blue); transform: scale(1.05); }
+
+    .show-reviews-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: var(--main-blue);
+      color: #000;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .show-reviews-btn:hover { background-color: var(--hover-blue); }
+
+    .reviews-list { display: none; margin-top: 15px; max-height: 300px; overflow-y: auto; padding: 10px; border: 1px solid var(--main-blue); border-radius: 8px; background-color: var(--card-hover-bg); }
+    .review-item { margin-bottom: 12px; padding: 8px; border-bottom: 1px solid var(--main-blue); }
+    .review-item:last-child { border-bottom: none; }
+
+    footer { text-align: center; padding: 20px; font-size: 14px; color: var(--footer-text); border-top: 1px solid var(--footer-border); margin-top: 60px; }
+
+    .home-button { display: inline-block; padding: 10px 20px; background-color: var(--main-blue); color: #000; text-decoration: none; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); transition: all 0.3s ease; }
+    .home-button:hover { background-color: var(--hover-blue); transform: scale(1.05); }
+  </style>
+</head>
+<body class="dark-mode" data-aos-easing="ease" data-aos-duration="600" data-aos-delay="0">
+  <header>
+    <h1>انجازات عبدالواحد</h1>
+    <p>الانجازات التي حققها عبدالواحد الان؟</p>
+    <div style="margin-top: 20px;">
+      <a href="index.html" class="home-button">
+        <i class="fas fa-home"></i> الصفحة الرئيسية
+      </a>
+    </div>
+  </header>
+
+  <button class="toggle-mode" onclick="toggleMode()" id="mode-toggle">
+    <i class="fas fa-moon"></i> وضع مظلم
+  </button>
+
+  <div class="container">
+    <div class="achievement-category" data-aos="fade-up">
+      <h2>🏅 الانجازات</h2>
+      <div class="achievements-grid">
+
+        <div class="achievement-card" data-aos="fade-up">
+          <div class="achievement-icon"><i class="fas fa-trophy"></i></div>
+          <h3 class="achievement-title">افضل مندوب بطائف</h3>
+          <p class="achievement-desc">يمتلك اكثر من 500+ تعليق إيجابي و تقيمه 🌟🌟🌟🌟🌟 نجوم بكل مكان!</p>
+        </div>
+
+        <div class="achievement-card" data-aos="fade-up">
+          <div class="achievement-icon"><i class="fas fa-crown"></i></div>
+          <h3 class="achievement-title">يتميز بالخبرة</h3>
+          <p class="achievement-desc">عبدالواحد يتميز بخبرته بتوصيل يعمل بخدمة التوصيل لأكثر من 6 سنوات</p>
+        </div>
+
+        <div class="achievement-card" data-aos="fade-up">
+          <div class="achievement-icon"><i class="fas fa-medal"></i></div>
+          <h3 class="achievement-title">التوصيل السريع ⏳🚗</h3>
+          <p class="achievement-desc">من اسرع و افضل المناديب عبدالواحد بتوصيل خلال الوقت المحدد</p>
+        </div>
+
+        <div class="achievement-card" data-aos="fade-up">
+          <div class="achievement-icon"><i class="fas fa-users"></i></div>
+          <h3 class="achievement-title">اكثر من 10k طلب 🛒🛍️</h3>
+          <p class="achievement-desc"> عبدالواحد لقد اوصل اكثر من 10k طلب </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="review-section" data-aos="fade-up">
+      <h2>⭐ قيم قصتنا وشارك تعليقك</h2>
+      <input type="text" id="reviewName" class="review-input" placeholder="اكتب اسمك أولاً" />
+      
+      <div class="star-rating" id="starRating">
+        <span class="star" data-value="1">☆</span>
+        <span class="star" data-value="2">☆</span>
+        <span class="star" data-value="3">☆</span>
+        <span class="star" data-value="4">☆</span>
+        <span class="star" data-value="5">☆</span>
+      </div>
+
+      <textarea id="reviewText" class="review-input" placeholder="اترك تعليقًا..💗"></textarea>
+      <button class="send-btn" id="sendReview">إرسال</button>
+
+      <button class="show-reviews-btn" id="toggleReviews">💬 عرض التعليقات</button>
+      <div class="reviews-list" id="reviewsList"></div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 موقع A_delivery - جميع الحقوق محفوظة
+    <br>مع تحيات محمد عبالواحد
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    function toggleMode() {
+      const body = document.body;
+      const icon = document.querySelector('#mode-toggle i');
+      const label = document.querySelector('#mode-toggle');
+
+      if (body.classList.contains("dark-mode")) {
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+        icon.className = "fas fa-sun";
+        label.innerHTML = '<i class="fas fa-sun"></i> وضع نهاري';
+      } else {
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
+        icon.className = "fas fa-moon";
+        label.innerHTML = '<i class="fas fa-moon"></i> وضع مظلم';
+      }
+    }
+
+    const stars = document.querySelectorAll('.star');
+    let rating = 0;
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        rating = parseInt(star.getAttribute('data-value'));
+        stars.forEach(s => {
+          s.classList.toggle('selected', parseInt(s.getAttribute('data-value')) <= rating);
+        });
+      });
+    });
+
+    const sendBtn = document.getElementById('sendReview');
+    const reviewsList = document.getElementById('reviewsList');
+
+    sendBtn.addEventListener('click', () => {
+      const name = document.getElementById('reviewName').value.trim();
+      const text = document.getElementById('reviewText').value.trim();
+
+      if(!name) { alert('الرجاء كتابة اسمك أولاً'); return; }
+      if(rating === 0) { alert('الرجاء اختيار عدد النجوم'); return; }
+
+      const reviewDiv = document.createElement('div');
+      reviewDiv.classList.add('review-item');
+      reviewDiv.innerHTML = `<strong>${name}</strong> - ${'🌟'.repeat(rating)}${'☆'.repeat(5-rating)}<br>${text}`;
+      reviewsList.appendChild(reviewDiv);
+
+      document.getElementById('reviewName').value = '';
+      document.getElementById('reviewText').value = '';
+      rating = 0;
+      stars.forEach(s => s.classList.remove('selected'));
+    });
+
+    const toggleBtn = document.getElementById('toggleReviews');
+    toggleBtn.addEventListener('click', () => {
+      reviewsList.style.display = reviewsList.style.display === 'block' ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
